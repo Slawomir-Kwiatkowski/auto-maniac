@@ -1,0 +1,33 @@
+{% extends 'cars/base.html' %}
+
+{% block content %}
+  <div class="mb-5">
+		<table class="table table-hover" id="carsTable">
+  			<thead class="thead-dark">
+    			<tr>
+      				<th scope="col">#</th>
+      				<th scope="col">Make</th>
+      				<th scope="col">Model</th>
+      				<th scope="col">VRN</th>
+      				<th scope="col">Year</th>
+    			</tr>
+  			</thead>
+  			<tbody>
+  				{% for car in cars %}
+    			<tr>
+      				<td>{{ forloop.counter }}</td>
+      				<td>{{ car.make }}</td>
+					<td>{{ car.model }}</td>
+					<td>{{ car.vrn}}</td>
+					<td>{{ car.year }}</td>
+    			</tr>
+    			{% endfor %}
+     
+  			</tbody>
+
+  		</table>
+    </div>
+
+{% endblock %}
+
+

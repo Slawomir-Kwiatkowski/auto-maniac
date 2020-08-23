@@ -1,0 +1,12 @@
+{% extends 'cars/base.html' %}
+
+{% block content %}
+ <div class="row justify-content-center mb-5">
+    <div class="col-4">
+	   <h4 class="border-bottom text-primary mt-2">You're logged out now</h4>	
+  <div class="text-muted text-small ml-2 mt-5">Back to: <a href="{% url 'login' %}">login page</a></div>
+  </div>
+ </div>
+{% endblock %}
+
+

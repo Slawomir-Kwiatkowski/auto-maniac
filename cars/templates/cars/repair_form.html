@@ -1,0 +1,22 @@
+{% extends 'cars/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+        <div class="row justify-content-center">
+          <div class="col-4">
+		    <form method="POST" class="form-control-sm">
+          {% csrf_token %}
+          <fieldset class="form-group">
+            <legend class="border-bottom text-primary">
+            Add New Repair Info
+             </legend>
+            {{ form|crispy }}
+          </fieldset>
+          <button class="btn btn-secondary" type="submit" value="Update">Add</button>
+          <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+{% endblock %}

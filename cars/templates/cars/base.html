@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
+	<title>Auto Maniac</title>
+</head>
+<body class="pt-5">
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="{% url 'admin:index' %}">AutoManiac</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          </li> -->
+          <li class="nav-item active ml-2">
+            <a class="nav-link text-light" href="{% url 'cars' %}">Cars</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light ml-2" href="{% url 'add_car' %}">Add Car</a>
+          </li>
+          {% if '/car' in request.path %}
+           <div class="nav-item dropdown justify-content-end mr-3">
+            <a class="nav-link dropdown-toggle text-light ml-2" href="http://example.com" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ car.make }} {{ car.model }}</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="{% url 'add_repair' car.id %}?row={{ row }}&p={{ p }}&q={{ q }}">Add repair</a>
+              <a class="dropdown-item" href="{% url 'update_car' car.id %}?row={{ row }}&p={{ p }}&q={{ q }}">Update car info</a>
+              <a class="dropdown-item" href="{% url 'delete_car' car.id %}">Delete car</a>
+            </div>
+          </div>
+          </li>
+          {% endif %}
+
+          
+        </ul>
+        {% if user.is_authenticated %}
+        <div class="nav-item dropdown justify-content-end mr-3">
+            <a class="nav-link dropdown-toggle text-light" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.get_username }}</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="{% url 'change_password' %}">Password</a>
+              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+            </div>
+          </div>
+          {% endif %}
+
+        <form class="form-inline my-2 my-lg-0" action="{% url 'cars' %}">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" name="q" aria-label="Search">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+      </div>
+
+    </nav>
+
+	<div class="container pt-3">
+    {%  if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+	{% block content %}
+	{% endblock %}
+	</div>
+
+
+
+  {% if is_paginated %}
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end et">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&p={{ p }}&row={{ row }}&q={{ q }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-item"><a class="page-link">Prev</a></li>
+    {% endif %}
+    {% if '/car' in request.path %}
+        {% for i in paginator.page_range %}
+          {% if page_obj.number == i %}
+       <li class="page-item active"><a class="page-link active" href="?page={{ i  }}&p={{ p }}&row={{ row }}&q={{ q }}">{{ i }}</a></li>
+      {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ i  }}&p={{ p }}&row={{ row }}&q={{ q }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% else%}
+
+    {% for i in paginator.page_range %}
+          {% if page_obj.number == i %}
+       <li class="page-item active"><a class="page-link active" href="?page={{ i  }}&q={{ q }}">{{ i }}</a></li>
+      {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ i  }}&q={{ q }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% endif %}
+     {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&p={{ p }}&row={{ row }}&q={{ q }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item"><a class="page-link">Next</a></li> 
+      {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+
+<script>
+$(function() {
+	$('#carsTable').bootstrapTable({
+  		onClickRow: function (row, $element, field) {
+      window.open("{% url 'car_detail' %}" + "?p={{ page_obj.number }}&row="
+       + JSON.parse(row[0]) + "&q={{ q }}", "_top")
+ 		 }
+	});	
+
+});
+
+</script>
+
+</body>
+</html>
+

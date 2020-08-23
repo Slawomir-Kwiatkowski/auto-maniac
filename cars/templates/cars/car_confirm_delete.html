@@ -1,0 +1,21 @@
+{% extends 'cars/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+        <div class="row justify-content-center">
+          <div class="col-4">
+            <form method="POST" class="form-control-sm">
+            {% csrf_token %}
+            <fieldset class="form-group">
+              <legend class="border-bottom text-primary">
+                Delete Car: {{ object }}?
+              </legend>
+            </fieldset>
+          <button class="btn btn-danger" type="submit" value="Confirm">Delete</button>
+          <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+{% endblock %}
